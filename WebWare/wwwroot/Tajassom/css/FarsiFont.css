@@ -1,0 +1,8 @@
+﻿@font-face {
+    font-family: 'iransansweb';
+    src: url('../fonts/iransansweb.ttf') format('truetype');
+}
+
+body {
+    font-family: 'iransansweb';
+}

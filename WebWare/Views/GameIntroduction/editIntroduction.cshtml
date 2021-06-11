@@ -1,0 +1,203 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model IntroductionViewModel
+@{
+    Layout = "_LayoutDashboard";
+}
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Edit Non Mobile Game Introduction"];
+    ViewData["gameId"] = Model.gameIdReal;
+}
+@section HeadLinks{
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <style>
+        hr {
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+}
+
+<h2>@ViewData["Title"] : @Model.gameTitle</h2>
+@if (Model.result != "")
+{
+    <hr />
+    <h4>@Localizer[Model.result]</h4>
+    <hr />
+}
+<div class="row">
+    <div class="col-md-12">
+        <section>
+            @*<form asp-route-returnurl="@ViewData[" ReturnUrl"]" method="post" enctype="multipart/form-data" asp-controller="GameIntroduction" asp-action="Save">*@
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" enctype="multipart/form-data" id="sv2">
+                <input asp-for="gameIdReal" type="hidden" value="@Model.gameIdReal" />
+                <h4>@Localizer["Change any data you want to edit and click save at end."]</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+
+                    <label asp-for="IntroductionMin">@Localizer["IntroductionMin"]</label>
+                    @Html.TextArea("IntroductionMin", @Model.IntroductionMin, new { rows = 10, columns = 40, })
+                    <span asp-validation-for="IntroductionMin" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+
+                    <label asp-for="gameplay">@Localizer["gameplay"]</label>
+                    @Html.TextArea("gameplay", @Model.gameplay, new { rows = 10, columns = 40, })
+                    <span asp-validation-for="gameplay" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="parentRecommendation">@Localizer["parentRecommendation"]</label>
+                    @Html.TextArea("parentRecommendation", @Model.parentRecommendation, new { rows = 10, columns = 40, })
+                    <span asp-validation-for="parentRecommendation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VersionAparatLink">@Localizer["aparat link"]</label>
+                    @*@Html.TextArea("VersionAparatLink", @Model.VersionAparatLink, new { rows = 10, columns = 40, })*@
+                    <input asp-for="VersionAparatLink" class="form-control" dir="ltr" />
+                    <span asp-validation-for="VersionAparatLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="CurrentCover">@Localizer["CurrentCover"]</label>
+                    <br />
+                    <img id="CurrentCover" src="~/FtpFiles/@Model.gameIdReal@Model.CoverPicName" width="600" />
+                    <br />
+                    <br />
+                    <label for="cover">@Localizer["Upload New Cover"]</label>
+                    <input asp-for="cover" type="file" class="form-control" />
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label for="pic1">@Localizer["picture 1"]</label>
+                    <br />
+                    <img id="pic1" src="~/FtpFiles/@Model.gameIdReal@Model.PicName1" width="600" />
+                    <br />
+                    <br />
+                    <label for="pic1Upload">@Localizer["Upload New picture 1"]</label>
+                    <input asp-for="pic1" type="file" />
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label for="pic2">@Localizer["picture 2"]</label>
+                    <br />
+                    <img id="pic2" src="~/FtpFiles/@Model.gameIdReal@Model.PicName2" width="600" />
+                    <br />
+                    <br />
+                    <label for="pic2Upload">@Localizer["Upload New picture 2"]</label>
+                    <input asp-for="pic2" type="file" class="form-control" />
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label for="pic3">@Localizer["picture 3"]</label>
+                    <br />
+                    <img id="pic3" src="~/FtpFiles/@Model.gameIdReal@Model.PicName3" width="600" />
+                    <br />
+                    <br />
+                    <label for="pic3Upload">@Localizer["Upload New picture 3"]</label>
+                    <input asp-for="pic3" type="file" class="form-control" />
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <br />
+                            <label for="isInIntroduction">@Localizer["Show in Introductions ?"]</label>
+                            <input asp-for="isInIntroduction" type="checkbox" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <br />
+                            <label for="picto1">@Localizer["Tobacco"]</label>
+                            <select asp-for="picto1" asp-items="Model.PictoList">
+                                <option value="">@Localizer["pick one...."]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="form-group col-2">
+                            <br />
+                            <label for="picto2">@Localizer["Technic"]</label>
+                            <select asp-for="picto2" asp-items="Model.PictoList">
+                                <option value="">@Localizer["pick one...."]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group col-2">
+                            <br />
+                            <label for="picto3">@Localizer["Fear"]</label>
+                            <select asp-for="picto3" asp-items="Model.PictoList">
+                                <option value="">@Localizer["pick one...."]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group col-2">
+                            <br />
+                            <label for="picto4">@Localizer["Violence"]</label>
+                            <select asp-for="picto4" asp-items="Model.PictoList">
+                                <option value="">@Localizer["pick one...."]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group col-2">
+                            <br />
+                            <label for="picto5">@Localizer["Social illnessess"]</label>
+                            <select asp-for="picto5" asp-items="Model.PictoList">
+                                <option value="">@Localizer["pick one...."]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group col-2">
+                            <br />
+                            <label for="picto6">@Localizer["Disappointment"]</label>
+                            <select asp-for="picto6" asp-items="Model.PictoList">
+                                <option value="">@Localizer["pick one...."]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <button type="submit" onclick="JAVASCRIPT:alertme2();" class="btn btn-default">@Localizer["save edits"]</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        function alertme2() {
+            if (confirm("آیا مایل به ذخیره این تغییرات می باشید ؟"))
+                $('#sv2').submit();
+        }
+    </script>
+    <script>
+        CKEDITOR.replace('IntroductionMin', {
+            language: 'fa'
+        });
+        CKEDITOR.replace('gameplay', {
+            language: 'fa'
+        });
+        CKEDITOR.replace('parentRecommendation', {
+            language: 'fa'
+        });
+        
+    </script>
+}

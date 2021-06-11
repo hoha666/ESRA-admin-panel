@@ -1,0 +1,146 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebWare.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - وب‌افزار</title>
+    <link rel="shortcut icon" href="~/Tajassom/pics/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--BootStrap 4.1.3-->
+    <link href="~/Tajassom/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--BootStrap RTL2-->
+    <link href="~/Tajassom/bootstrapRTL2/css/bootstrap-rtl.min.css" rel="stylesheet" />
+    <link href="~/Tajassom/bootstrapRTL2/css/bootstrap-flipped.min.css" rel="stylesheet" />
+    <!--Farsi Fonts-->
+    <link href="~/Tajassom/css/FarsiFont.css" rel="stylesheet" />
+    <!--Cache Settings-->
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <!--Custum CSS-->
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
+    @RenderSection("HeadLinks", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border border-blue">
+        <a class="navbar-brand" href="#">
+            <img src="~/Tajassom/pics/logo_light2.PNG" alt="WebWare" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    @*<nav class="navbar navbar-expand-sm bg-white navbar-light border border-blue " style="height:7%;">
+            <a class="navbar-brand" href="#">
+                <img src="~/Tajassom/pics/logo_light2.PNG" alt="WebWare" style="width:30%;"  />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto bg-aqua">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Link1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link3</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>*@
+    @*<div class="container-fluid" style="padding-right:0;padding-left:0;height:86%;">
+            <div class="col-sm-2 bg-dark fixed" style="padding-right:0;padding-left:0;height:100%;">
+                <aside class="">
+                    <form class="form-inline" style="width:100%;margin: 0 auto;">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width:100%;margin-left: .5rem!important;margin-top:1rem;">
+                    </form>
+                    <nav class="nav nav-list">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link2</a>
+                            </li>
+                            <li class="nav-item">
+                                list +
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">LinkA</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">LinkB</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link4</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link5</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link6</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link7</a>
+                            </li>
+                        </ul>
+
+                    </nav>
+                </aside>
+            </div>
+            <div class="col-sm-10 bg-secondary" style="height:100%;padding-left:0;">
+                @RenderBody()
+                <p>This text is lorem ipsum gomnah ieursd . </p>
+            </div>
+        </div>*@
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    @RenderBody()
+    <script src="~/Tajassom/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="~/Tajassom/js/popper.min.js"></script>
+    <script src="~/Tajassom/bootstrap/js/bootstrap.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

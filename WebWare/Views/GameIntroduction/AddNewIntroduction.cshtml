@@ -1,0 +1,101 @@
+﻿@*@model GameIntroductionViewModel*@
+@{
+    Layout = "_LayoutDashboard";
+}
+
+@{
+    ViewData["Title"] = "Game Introductions";
+}
+
+@section HeadLinks {
+
+}
+
+<h2>معرفی بازی ها</h2>
+
+<div class="container">
+    <h2>بازی هایی که تا بحال برای آنها معرفی بازی ثبت نشده است</h2>
+    <p>با انتخاب بازی مورد نظر برای آن معرفی بازی.</p>
+    <table id="example2" class="table table-striped table-bordered farsiNumber2" style="width:100%">
+        <thead>
+            <tr>
+                <th>عنوان بازی</th>
+                <th>ویرایش</th>
+            </tr>
+        </thead>
+        @*<tbody>
+                @foreach (var x in Model.GiGames)
+                {
+                    <tr>
+                        <td>@x.Name</td>
+                        <td>@x.AgeRating.ToString()</td>
+                        <td>@string.Join(",", x.genres.ToArray())</td>
+                        <td>@x.platform.ToString()</td>
+                        <td><a href="\GameIntroduction\EditIntroduction?gameId=@x.IdGame"><i class="fa fa-edit "></i></a></td>
+
+                    </tr>
+                }
+            </tbody>*@
+    </table>
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        //(function ($) {
+        //    var generateGamesTable = $('#example2')
+        //        .DataTable({
+        //            "processing": true,
+        //            "serverSide": true,
+        //            "ajax": {
+        //                "url": "Items",
+        //                "method": "POST"
+        //            },
+        //            "columns": [
+        //                { "data": "gameTitle" },
+        //                { "data": "ageRating" },
+        //                { "data": "genre" },
+        //                { "data": "gamePlatform" },
+        //                { "data": "editGame" }
+        //            ],
+        //            "ordering": true,
+        //            "paging": true,
+        //            "pagingType": "full_numbers",
+        //            "pageLength": 10
+        //        });
+        //})(jQuery);
+
+
+        $(document).ready(function () {
+            $('#example2').DataTable(
+                {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": "../Items",
+                        "method": "POST"                      
+
+                    },
+                    "columns": [
+                        { "data": "name" },
+                        {
+                            "data": "mid",
+                            "render": function (data, type, row, meta) {
+                                var a = data;
+                                
+                                return "<a href=\\GameIntroduction\\EditIntroduction?gameId=" + a + " > <i class='fa fa-edit'></i></a>";
+                            }
+                        }
+                    ],
+                    "ordering": true,
+                    "paging": true,
+                    "pagingType": "full_numbers",
+                    "pageLength": 10
+                }
+            );
+        });
+
+    </script>
+
+}

@@ -1,0 +1,52 @@
+﻿@model DashboardMenuViewModel
+
+@{
+    ViewData["Title"] = "Modules";
+    
+    
+}
+
+@if (Model.Menus != null)
+{
+    foreach (var item in Model.Menus)
+    {
+        if (item.Header is null)
+        {
+            <li>
+                @if (Model.Menus.Any(o => o.Header == item.Id))
+                {
+                    <a href="#">
+                        <i class="fa fa-menu-arrow pull-right"></i>
+                        <i class="main-icon fa @item.Icon"></i> <span>@item.Title</span>
+                    </a>
+                    @foreach (var sm in Model.Menus)
+                    {
+                        if (sm.Header == item.Id)
+                        {
+                    <ul>
+                        <!-- submenus -->
+                        
+                        <li><a href="@sm.Url">@*<i class="fa @sm.Icon "></i>*@ @sm.Title </a></li>
+                    </ul>
+                        }
+                    }
+                }
+                else
+                {
+                    <a href="@item.Url">
+                        <i class="main-icon fa @item.Icon"></i> <span>@item.Title</span>
+                    </a>
+                }
+            </li>
+        }
+    }
+}
+else
+{
+    <li>
+        <a href="#">
+            <i class="fa  pull-right"></i>
+            <i class="main-icon fa fa-bar-chart-o"></i> <span>شما دسترسی ندارید</span>
+        </a>
+    </li><li></li>
+}

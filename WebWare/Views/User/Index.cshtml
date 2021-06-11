@@ -1,0 +1,58 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using WebWare.Models.User;
+
+
+@model UserViewModel;
+@{
+    Layout = "_LayoutDashboard";
+}
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Users"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <hr />
+        <section>
+            <table id="example" class="table table-striped table-hover table-bordered farsiNumber2" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@Localizer["Username"]</th>
+                        <th>@Localizer["Phone Number"]</th>
+                        <th>@Localizer["Edit"]</th>
+                        <th>@Localizer["Delete"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.aspNetUsers)
+                    {
+                        <tr>
+                            <td>@x.UserName</td>
+                            <td>@x.PhoneNumber</td>
+                            <td>@Html.ActionLink("Edit", "EditUser", "User", new { username = x.UserName }, new { @class = "btn btn-default btn-xs" })</td>
+                            <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-times white"></i> Delete </a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+    </script>
+
+}

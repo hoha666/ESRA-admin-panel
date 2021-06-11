@@ -1,0 +1,149 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebWare.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <!-- mobile settings -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    <!--cache settings-->
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <!-- WEB FONTS -->
+    <link href="~/assets/css/onlinecss.css" rel="stylesheet" />
+    @*<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />*@
+    <!-- CORE CSS -->
+    @*<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />*@    
+    <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+    @RenderSection("HeadLinks", required: false)
+    <!-- THEME CSS -->
+    <link href="~/assets/css/essentials.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+    <link id="rtl_ltr_b1" href="~/assets/plugins/bootstrap/RTL/bootstrap-rtl.min.css" rel="stylesheet" type="text/css" title="rtl" />
+    <link id="rtl_ltr_b2" href="~/assets/plugins/bootstrap/RTL/bootstrap-flipped.min.css" rel="stylesheet" type="text/css" title="rtl" />
+    <link id="rtl_ltr" href="~/assets/css/layout-RTL.css" rel="stylesheet" type="text/css" title="rtl" />
+    <link href="~/css/FarsiFont.css" rel="stylesheet" />
+
+
+    <title>@ViewData["Title"] - WebWare</title>
+
+</head>
+<body dir="rtl">
+    <div id="wrapper" class="clearfix">
+        <aside id="aside">
+            <nav id="sideNav">
+                <ul class="nav nav-list">
+                    <li class="active">
+                        <a class="dashboard" href="/dashboard">
+                            <i class="main-icon fa fa-dashboard"></i><span>داشبورد</span>
+                        </a>
+                    </li>
+                    @await Component.InvokeAsync("DashboardMenu")
+                    @*<li>
+                            <a href="#">
+                                <i class="fa fa-menu-arrow pull-right"></i>
+                                <i class="main-icon fa fa-bar-chart-o"></i> <span>نمودار ها</span>
+                            </a>
+                        </li>*@
+                </ul>
+            </nav>
+        </aside>
+        <!--HEADER-->
+        <header id="header">
+            <!-- Mobile Button -->
+            <button id="mobileMenuBtn"></button>
+
+            <!-- Logo -->
+            <span class="logo pull-left">
+                @*<img src="assets/images/logo_light.png" alt="admin panel" height="35" />*@
+            </span>
+
+            <form method="get" action="page-search.html" class="search pull-left hidden-xs">
+                <input type="text" class="form-control" name="k" placeholder="جستجو ..." />
+
+            </form>
+            <div class="col-md-2">
+                <a href="http://www.esragames.com" target="_blank" class="form-control">مشاهده وب سایت</a>
+            </div>
+            <nav>
+
+                <!-- OPTIONS LIST -->
+                <ul class="nav pull-right">
+
+                    <!-- USER OPTIONS -->
+
+                    <li class="dropdown pull-left">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <img class="user-avatar" alt="" src="assets/images/noavatar.jpg" height="34" />
+                            <span class="user-name">
+                                <span class="hidden-xs">
+                                    @User.Identity.Name <i class="fa fa-angle-down"></i>
+                                </span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu hold-on-click">
+                            <li>
+                                <!-- logout -->
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                    <a href="JAVASCRIPT:document.getElementById('logoutForm').submit();"><i class="fa fa-power-off"></i> Log Out</a>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- /USER OPTIONS -->
+
+                </ul>
+                <!-- /OPTIONS LIST -->
+
+            </nav>
+
+        </header>
+        <!--MIDDLE-->
+        <section id="middle">
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="farsiNumber">
+                                &copy;
+                                @System.Globalization.CultureInfo.CreateSpecificCulture("fa").Calendar.GetYear(DateTime.Now).ToString(System.Globalization.CultureInfo.CreateSpecificCulture("fa"))
+                                - وب‌افزار تهیه شده توسط هابیل هراتی
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            @await Html.PartialAsync("_SelectLanguagePartial")
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JAVASCRIPT FILES -->
+    <script type="text/javascript">var plugin_path = '/assets/plugins/';</script>    
+    <script type="text/javascript" src="~/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+    <script src="~/js/datatables.min.js"></script>
+    <script src="~/js/persianumber.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/app.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    @RenderSection("Scripts", required: false)
+
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using WebWare.Models.User;
+
+
+@model EditedUser;
+@{
+    Layout = "_LayoutDashboard";
+}
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Users"];
+    ViewData["UserName"] = Model.Username;
+}
+@if (Model.res == "ok")
+{
+    <hr />
+    <div id="REQUIRED-ID" class="modal fade" data-autoload="true" data-autoload-delay="200">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">نتیجه عملیات</h4>
+                </div><!-- /Modal Header -->
+                <div class="modal-body clearfix">
+                    <p>
+                        @Localizer["Changing user's information completed succesfully."];
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+}
+<br />
+<form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" enctype="multipart/form-data">
+    <input asp-for="Username" type="hidden" value="@Model.Username" />
+    <input asp-for="Id" type="hidden" value="@Model.Id" />
+    <div class="form-group">
+        <label for="Id2">@Localizer["Id"]</label>
+        <input id="Id2" type="text" class="form-control" aria-describedby="IdHelp" placeholder="@Model.Id" disabled />
+        <small id="IdHelp" class="form-text text-muted">@Localizer["User ids are not changable."]</small>
+    </div>
+    <div class="form-group">
+        <label for="Username2">@Localizer["Username"]</label>
+        <input id="Username2" type="text" class="form-control" aria-describedby="UserNameHelp" placeholder="@Model.Username" disabled />
+        <small id="UserNameHelp" class="form-text text-muted">@Localizer["Usernames are not changable."]</small>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber">@Localizer["Mobile number"]</label>
+        <input asp-for="PhoneNumber" type="tel" class="form-control" aria-describedby="PhoneNumberHelp" placeholder="@Model.PhoneNumber" />
+        <small id="PhoneNumberHelp" class="form-text text-muted">@Localizer["Mobile number used for SMS notifications. sample : +989121234567 or 09123456789"]</small>
+    </div>
+    <button type="submit" class="btn btn-primary">@Localizer["Change"]</button>
+</form>
